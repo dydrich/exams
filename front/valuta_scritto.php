@@ -20,7 +20,7 @@ $_SESSION['__area__'] = "teachers";
 
 $year = $_SESSION['__current_year__']->get_ID();
 
-$id_test = $db->executeCount("SELECT id_prova FROM rb_ex_prove_scritte WHERE anno = {$_SESSION['__current_year__']->get_ID()} AND materie = {$_REQUEST['sub']}");
+$id_test = $db->executeCount("SELECT id_prova FROM rb_ex_prove_scritte WHERE anno = {$_SESSION['__current_year__']->get_ID()} AND materie = '{$_REQUEST['sub']}'");
 $_SESSION['test'] = $id_test;
 
 foreach ($_SESSION['students'] as $k => $student) {

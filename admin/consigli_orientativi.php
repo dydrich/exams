@@ -21,6 +21,6 @@ $drawer_label = "Esame di Stato: giudizi orientativi";
 
 $anno = $_SESSION['__current_year__']->get_ID();
 
-$res_g = $db->executeQuery("SELECT * FROM rb_ex_giudizi_orientativi ORDER BY id_giudizio");
+$res_g = $db->executeQuery("SELECT * FROM rb_ex_consigli_orientativi ORDER BY id_giudizio");
 
 include "consigli_orientativi.html.php";

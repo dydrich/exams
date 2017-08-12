@@ -8,14 +8,14 @@
  */
 class WrittenTest
 {
-	private $testID;
-	private $description;
-	private $subjects;
-	private $datetime;
-	private $year;
-	private $duration;
-	private $datasource;
-	private $workshift;
+	protected $testID;
+	protected $description;
+	protected $subjects;
+	protected $datetime;
+	protected $year;
+	protected $duration;
+	protected $datasource;
+	protected $workshift;
 
 	/**
 	 * WrittenTest constructor.
@@ -198,7 +198,7 @@ class WrittenTest
 		$data = $db->executeQuery("SELECT * FROM rb_ex_prove_scritte WHERE id_prova = {$id}");
 		$rbt = new RBTime(0, 0, 0);
 		$rbt->setTime($data[0]['durata']*60);
-		$ret = new WrittenTest($id, $data[0]['prova'], $data[0]['materie'], $data[0]['data'], $_SESSION['__current_year__']->get_id(), $rbt, $db);
+		$ret = new WrittenTest($id, $data[0]['prova'], $data[0]['materie'], $data[0]['data'], $_SESSION['__current_year__']->get_ID(), $rbt, $db);
 		return $ret;
 	}
 
@@ -210,4 +210,10 @@ class WrittenTest
 		return $this->testID;
 	}
 
+	public function update() {
+		$sbjs = implode("#", $this->subjects);
+		$duration = $this->duration->getTime() / 60;
+		$sql = "REPLACE INTO rb_ex_prove_scritte (id_prova, anno, prova, materie, data, durata) VALUES ({$this->testID}, {$this->year}, '{$this->description}', '{$sbjs}', '{$this->datetime}', $duration)";
+		$this->datasource->executeUpdate($sql);
+	}
 }

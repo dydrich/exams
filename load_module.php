@@ -28,8 +28,23 @@ $_SESSION['__modules__'][$module_code]['path_to_root'] = $module['path_to_root']
 
 $_SESSION['__mod_area__'] = $_REQUEST['area'];
 
-if (isset($_REQUEST['page'])){
-		header("Location: {$_REQUEST['page']}.php");
+$anno = $_SESSION['__current_year__']->get_ID();
+
+/*
+ * carica in sessione le prove
+ */
+$res_tests = $db->executeQuery("SELECT * FROM rb_ex_prove_scritte WHERE anno = {$anno} ORDER BY data ");
+$tests = [];
+while ($row = $res_tests->fetch_assoc()) {
+	$tests[$row['id_prova']] = $row;
+}
+$_SESSION['tests'] = $tests;
+
+if (isset($_REQUEST['page']) && $_REQUEST['page'] === 'front'){
+		header("Location: front/index.php");
+}
+else if (isset($_REQUEST['page']) && $_REQUEST['page'] === 'admin'){
+	header("Location: admin/index.php");
 }
 else {
 	header("Location: {$module['front_page']}");
